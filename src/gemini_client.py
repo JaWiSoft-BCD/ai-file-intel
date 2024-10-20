@@ -77,16 +77,12 @@ class GeminiClient:
 
             ANALYSIS GUIDELINES:
             - Base Trustworthiness score on:
-            * Known IP reputation
-            * Organisaton and ISP result
+            * Known file reputation and what it is usually used for.
+            * Other files that are also in the INPUT DATA which is also active.
+            * Location of the file
             * Communication patterns
             * Data volume ratios
-            * Connection frequency
-            - Consider these risk factors:
-            * Unusual port usage
-            * Asymmetric data transfer
-            * Connection pattern anomalies
-            * Geographic location concerns
+            * Open and Close frequency
 
             Your response must be directly parseable by the following format indicators:
             - Line starts with field name followed by colon
@@ -139,7 +135,7 @@ class GeminiClient:
             lower_line = line.lower()
 
             if 'path' in lower_line and ':' in line:
-                current_field = 'trustworthiness'
+                current_field = 'path'
                 parsed[current_field] = line.split(':', 1)[1].strip()
             elif 'trustworthiness' in lower_line and ':' in line:
                 current_field = 'trustworthiness'

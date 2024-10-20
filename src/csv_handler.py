@@ -63,7 +63,8 @@ class CSVHandler:
                         continue
                     if "\\" not in file_path:
                         continue
-                    file_time = row['File Time']
+                    
+                    file_time = row['ï»¿File Time']
                     total_events = row['Total Events']
                     opens = row['Opens']
                     closes = row['Closes']
@@ -77,7 +78,7 @@ class CSVHandler:
                     file_record = [f"File Time: {file_time}", f"Total Events: {total_events}", f"Opens: {opens}",
                                                f"Closes: {closes}", f"Reads: {reads}", f"Writes: {writes}", f"Read Bytes: {read_bytes}",
                                                f"Write Bytes: {wirte_bytes}", f"Get ACL: {get_acl}", f"Set ACL: {set_acl}", f"Other: {other}",
-                                               f"Patch: {file_path}"]
+                                               f"Path: {file_path}"]
                     
                     file_tree = file_path.split("\\")
                     file_tree_level = float(len(file_tree))
@@ -87,7 +88,7 @@ class CSVHandler:
                         continue
                     # GROUPING Of SIMALIAR Paths IMPORTANT THAT THINGS ARE ORGANIZED ACCORDING TO PATH.
                     if file_tree_level / 2 > 1:
-                        dir_level_grouping = int(round(file_tree/2,0))
+                        dir_level_grouping = int(round(file_tree_level/2,0))
                         folder = file_tree[dir_level_grouping]
                         if folder not in previous_path:
                             summary_list.append(file_batch_content)
@@ -127,23 +128,34 @@ class CSVHandler:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_filename = f"file_analysis_{timestamp}.csv"
         output_path = self.output_dir / output_filename
-
+        file = open("errors", "a")
         try:
             # Get all unique fields from all results
             fieldnames = set()
             for result in results:
-                fieldnames.update(result.keys())
+                try:
+                    fieldnames.update(result.keys())
+                except Exception as e:
+                    file.write(str(result) +"\n")
+
             
             # Convert sets or lists in results to strings for CSV writing
             processed_results = []
             for result in results:
                 processed_result = {}
+                try:
+                    result.items()
+                except Exception:
+                    continue
                 for key, value in result.items():
-                    if isinstance(value, (list, set)):
-                        processed_result[key] = ', '.join(map(str, value))
-                    else:
-                        processed_result[key] = value
-                processed_results.append(processed_result)
+                    try:
+                        if isinstance(value, (list, set)):
+                            processed_result[key] = ', '.join(map(str, value))
+                        else:
+                            processed_result[key] = value
+                        processed_results.append(processed_result)
+                    except Exception:
+                        pass
 
             with open(output_path, 'w', newline='') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=sorted(fieldnames))

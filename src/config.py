@@ -25,7 +25,6 @@ class ConfigHandler:
         """
         required_vars = {
             'GEMINI_API_KEY' : os.getenv('GEMINI_API_KEY'),
-            'TOGETHER_API_KEY': os.getenv('TOGETHER_API_KEY')
         }
 
         return required_vars
