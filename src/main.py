@@ -53,7 +53,7 @@ class FileIntelAnalyzer:
        
         final_data = self.gemini_client.analyze_files_data(file_records)
 
-        time.sleep(15)
+        time.sleep(20)
         return final_data
 
     def process_file_summary_lists(self, file_summaries_list: List[List[List[str]]], max_workers: int = 3) -> List[Dict]:

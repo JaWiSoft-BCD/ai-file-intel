@@ -91,10 +91,8 @@ class GeminiClient:
             - No extra whitespace
             - No additional formatting
             """
-            print(prompt)
             response = self.modle.generate_content(prompt)
             analysis = response.text
-            print(analysis)
 
             # Parse the analysis into structured fields
             analysis_dict = self._parse_analysis(analysis)
