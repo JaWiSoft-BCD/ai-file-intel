@@ -67,8 +67,8 @@ class FileIntelAnalyzer:
         # Actual function
         results = []
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            future_to_ip = {executor.submit(self.process_file_batch, files_summary): files_summary 
-                          for files_summary in file_summaries_list}
+            future_to_ip = {executor.submit(self.process_file_batch, files_batch): files_batch 
+                          for files_batch in file_summaries_list}
             
             for future in as_completed(future_to_ip):
                 file_summary = future_to_ip[future]

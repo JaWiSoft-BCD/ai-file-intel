@@ -64,7 +64,7 @@ class CSVHandler:
                     if "\\" not in file_path:
                         continue
                     
-                    file_time = row['ï»¿File Time']
+                    file_time = row['File Time']
                     total_events = row['Total Events']
                     opens = row['Opens']
                     closes = row['Closes']
@@ -80,12 +80,12 @@ class CSVHandler:
                                                f"Write Bytes: {wirte_bytes}", f"Get ACL: {get_acl}", f"Set ACL: {set_acl}", f"Other: {other}",
                                                f"Path: {file_path}"]
                     
-                    file_tree = file_path.split("\\")
-                    file_tree_level = float(len(file_tree))
                     if not previous_path:
                         file_batch_content.append(file_record)
                         previous_path = file_path
                         continue
+                    file_tree = file_path.split("\\")
+                    file_tree_level = float(len(file_tree))
                     # GROUPING Of SIMALIAR Paths IMPORTANT THAT THINGS ARE ORGANIZED ACCORDING TO PATH.
                     if file_tree_level / 2 > 1:
                         dir_level_grouping = int(round(file_tree_level/2,0))
@@ -107,6 +107,7 @@ class CSVHandler:
                         previous_path = file_path
                         continue
                     file_batch_content.append(file_record)
+                    previous_path = file_path
         
             self.logger.info(f"Successfully read {len(summary_list)} files from {filename}")
             return summary_list
