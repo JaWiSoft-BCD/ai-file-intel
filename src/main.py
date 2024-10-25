@@ -53,10 +53,10 @@ class FileIntelAnalyzer:
        
         final_data = self.gemini_client.analyze_files_data(file_records)
 
-        time.sleep(20)
+        time.sleep(5)
         return final_data
 
-    def process_file_summary_lists(self, file_summaries_list: List[List[List[str]]], max_workers: int = 3) -> List[Dict]:
+    def process_file_summary_lists(self, file_summaries_list: List[List[List[str]]], max_workers: int = 1) -> List[Dict]:
         """Process a list of IPs concurrently.
         [[[..., Path: ], [...Path: ]], [[..., Path: ], [...Path: ]]]
         """
