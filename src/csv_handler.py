@@ -85,22 +85,23 @@ class CSVHandler:
                         previous_path = file_path
                         continue
                     file_tree = file_path.split("\\")
-                    file_tree_level = float(len(file_tree))
+                    file_tree_levels_count = float(len(file_tree))
                     # GROUPING Of SIMALIAR Paths IMPORTANT THAT THINGS ARE ORGANIZED ACCORDING TO PATH.
-                    if file_tree_level / 2 > 1:
-                        dir_level_grouping = int(round(file_tree_level/2,0))
-                        folder = file_tree[dir_level_grouping]
-                        if folder not in previous_path:
-                            summary_list.append(file_batch_content)
-                            file_batch_content = []
-                            file_batch_content.append(file_record)
-                            previous_path = file_path
+                    if file_tree_levels_count / 2 > 1:
+                        dir_level_grouping = int(round(file_tree_levels_count/2,0))
+                        folder_group = file_tree[dir_level_grouping] # Not going to deep into file trees.
+                        # If the folder is not in the prvious path then
+                        if folder_group not in previous_path:
+                            summary_list.append(file_batch_content) # Add to summary list as group. 
+                            file_batch_content = [] # Start a new group
+                            file_batch_content.append(file_record) # Append the current record to the new group
+                            previous_path = file_path # Update the previous path
                             continue
                         file_batch_content.append(file_record)
                         previous_path = file_path
                         continue
-                    folder = file_tree[1]
-                    if folder not in previous_path:
+                    folder_group = file_tree[1] # This is Hight level folder
+                    if folder_group not in previous_path:
                         summary_list.append(file_batch_content)
                         file_batch_content = []
                         file_batch_content.append(file_record)
